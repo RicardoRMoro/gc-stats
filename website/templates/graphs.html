@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}GamersClub Stats{% endblock %}
+{% block contentsubtitle %}
+  <div style="margin-left: 15px;">
+    <h1>GamersClub Stats</h1>
+    <p>Bem-vindo a GamersClub Stats, para carregar xo.</p>
+    <div style="height: 20px;"></div>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"
+    integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    <script>
+        var ctx = document.getElementById('vitoriaspormes').getContext('2d');
+    
+        // Create a list with the count of matches for each month
+        var vitoriaCountData = {{ vitoria_count_by_month | safe }};
+        var derrotaCountData = {{ derrota_count_by_month | safe }};
+        var monthsLabels = {{ months | safe }};
+    
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: monthsLabels,
+                datasets: [
+                    {
+                        label: 'Vitórias',
+                        data: vitoriaCountData,
+                        backgroundColor: 'rgba(90, 211, 52, 0.8)',
+                        borderColor: 'rgba(53, 130, 29, 0.8)',
+                        borderWidth: 0
+                    },
+                    {
+                        label: 'Derrotas',
+                        data: derrotaCountData,
+                        backgroundColor: 'rgba(203, 44, 44, 0.8)',
+                        borderColor: 'rgba(122, 12, 12, 0.8)',
+                        borderWidth: 0
+                    }
+                ]
+            },
+            options: {
+            plugins: {title:{display: true, text: 'Vitórias/ Derrotas por Mês', font: {size: 20} ,padding:{top: 0, bottom:10}}},
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stacked: true,
+                    grid: {
+                        display: true, // Remove vertical grey lines
+                    },
+                    ticks: {
+                        stepSize: 10,
+                    }
+                },
+                x: {
+                    stacked: true,
+                    grid: {
+                        display: false, // Remove horizontal grid lines
+                    }
+                }
+            }
+        }
+    });
+
+    </script>
+    
+
+{% endblock %}
+
+{% block content %}
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="vitoriaspormes" style="max-width: 900px; width: 100%;" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

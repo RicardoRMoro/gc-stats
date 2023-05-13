@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}GamersClub Stats{% endblock %}
+{% block contentsubtitle %}
+  <div style="margin-left: 15px;">
+    <h1>GamersClub Stats</h1>
+    <p>Bem-vindo a GamersClub Stats, para carregar ou atualisar suas partidas, basta clicar no botão abaixo.</p>
+    <form method="POST" action="{{ url_for('views.retrieve_data') }}">
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary">Atualizar Partidas</button>
+        </div>
+    </form>
+    <div style="height: 20px;"></div>
+  </div>
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-10">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Partida</th>
+                            <th>Mapa</th>
+                            <th>Kills</th>
+                            <th>Assists</th>
+                            <th>Mortes</th>
+                            <th>Data</th>
+                            <th>Score</th>
+                            <th>Vitória/Derrota</th>
+                            <th>PontosVar</th>
+                            <th>Pontos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                            <tr>
+                                <td>{{ row.Partida }}</td>
+                                <td>{{ row.Mapa }}</td>
+                                <td>{{ row.Kills }}</td>
+                                <td>{{ row.Assists }}</td>
+                                <td>{{ row.Mortes }}</td>
+                                <td>{{ row.Data }}</td>
+                                <td>{{ row.Score }}</td>
+                                <td>{{ row.Vitória }}</td>
+                                <td>{{ row.PontosVar }}</td>
+                                <td>{{ row.Pontos }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
